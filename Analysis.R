@@ -253,24 +253,5 @@ ggplot(data = data_out_CHLOR, aes(x = meanCHLOR, y = `Kg/ha`)) +
 
 
 
-farms[grep(farmCodes[1], names(farms), value = TRUE)] |> 
-	lapply(
-		\(data) data[ ,grep("LAI", names(data), value = TRUE)]
-	) |> 
-	lapply(
-		\(data) apply(data, 1, mean, na.rm = TRUE)
-	) |> . =>
-	do.call("rbind", .)
-
-
-
-
-
-
-
-
-
-
-
 
 
