@@ -124,6 +124,7 @@ plotting <- function(data_mat, num_weeks, var = ""){
 
 
 # Generating plots for nine week fields/farms
+# LAI
 lapply(
 	# list
 	nineWeeks,
@@ -134,7 +135,20 @@ lapply(
 	# auxilliary arguments
 	num_weeks = 9,
 	var = "LAI"
-) -> nineWeeks_plots
+) -> nineWeeks_LAI_plots
+
+# CHLOROPHYLL
+lapply(
+	# list
+	nineWeeks,
+	
+	# Function to loop over list with
+	plotting,
+	
+	# auxilliary arguments
+	num_weeks = 9,
+	var = "CHLOR"
+) -> nineWeeks_CHLORO_plots
 
 
 
