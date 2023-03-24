@@ -104,10 +104,10 @@ plotting <- function(data_mat, num_weeks, var = ""){
 		do.call("c", .)
 	
 	a <- ggplot(data = data, aes(x = 1:num_weeks)) +
-		geom_line(aes(y = `LAI 1`), col = "red", lwd = 1.5) +
-		geom_line(aes(y = `LAI 2`), col = "darkblue", lwd = 1.5) +
-		geom_line(aes(y = `LAI 3`), col = "darkgreen", lwd = 1.5) +
-		geom_line(aes(y = `LAI 4`), col = "grey", lwd = 1.5) +
+		geom_line(aes(y = data[ ,1]), col = "red", lwd = 1.5) +
+		geom_line(aes(y = data[ ,2]), col = "darkblue", lwd = 1.5) +
+		geom_line(aes(y = data[ ,3]), col = "darkgreen", lwd = 1.5) +
+		geom_line(aes(y = data[ ,4]), col = "grey", lwd = 1.5) +
 		scale_x_continuous(
 			breaks = seq(1, num_weeks, by = 1), 
 			labels = labels[1:num_weeks]
@@ -215,7 +215,8 @@ parallel::clusterExport(
 )
 
 # parallel computations
-# calling the plotting function on designatied subsets on the list "tenWeeks"
+# calling the plotting function on designated subsets on the list "tenWeeks"
+# LAI
 parallel::clusterApply(
 	
 	#cluster of 4 nodes
@@ -230,8 +231,25 @@ parallel::clusterApply(
 	#auxilliary arguments
 	var = "LAI"
 
-) -> tenWeeks_plots
+) -> tenWeeks_plots_LAI
 
+
+# Chlorophyll
+parallel::clusterApply(
+	
+	#cluster of 4 nodes
+	cl,
+	
+	# index positions as argument to the function-call
+	parallel::splitIndices(length(tenWeeks), length(cl)),
+	
+	# first argument to the function "plotting_10"
+	plotting_10,
+	
+	#auxilliary arguments
+	var = "LAI"
+	
+) -> tenWeeks_plots_CHLORO
 
 # Stopping the cluster "cl"
 parallel::stopCluster(cl)
